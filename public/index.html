@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hej – Preview</title>
+    <title>Learn any language like a local</title>
+    <meta
+      name="description"
+      content="Hej is an interactive voice app that helps you immersively learn any language, progressively and at your pace."
+    />
     <style>
       /* Layout */
       html,
@@ -119,9 +123,34 @@
       .footer a:hover {
         text-decoration: underline;
       }
+      /* Page header */
+      .page-header {
+        position: absolute;
+        top: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        max-width: 80%;
+      }
+      .page-header h1 {
+        margin: 0;
+        font-size: 3rem;
+      }
+      .page-header p {
+        margin: 0.5rem 0 0;
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
     </style>
   </head>
   <body>
+    <div class="page-header">
+      <h1>Learn any language like a local</h1>
+      <p>
+        Hej is an interactive voice app that helps you immersively learn any
+        language, progressively and at your pace.
+      </p>
+    </div>
     <div class="logo">hej<small>PREVIEW</small></div>
     <div id="orb"></div>
     <div class="controls">
