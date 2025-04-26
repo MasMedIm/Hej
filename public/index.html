@@ -141,6 +141,7 @@
         max-width: 80%;
         text-align: center;
         display: none;
+      }
 
       /* Page header */
       .page-header {
@@ -175,7 +176,6 @@
       }
       .top-nav a:hover {
         text-decoration: underline;
-
       }
     </style>
   </head>
@@ -226,13 +226,20 @@
         const dc = pc.createDataChannel("oai-events");
         // dc.onmessage = (e) => console.log("Event:", JSON.parse(e.data));
         dc.onmessage = (e) => {
-          if (JSON.parse(e.data).type === 'response.done') {
-            if (JSON.parse(e.data).response.output?.[0]?.content?.[0]?.transcript) {
-              const transcript = JSON.parse(e.data).response.output[0].content[0].transcript;
-              console.log('Response:', transcript);
-              if (document.getElementById('subtitle').classList.contains('active')) {
-                document.getElementById('subtitleDisplay').textContent = transcript;
-                document.getElementById('subtitleDisplay').style.display = 'block';
+          if (JSON.parse(e.data).type === "response.done") {
+            if (
+              JSON.parse(e.data).response.output?.[0]?.content?.[0]?.transcript
+            ) {
+              const transcript = JSON.parse(e.data).response.output[0]
+                .content[0].transcript;
+              console.log("Response:", transcript);
+              if (
+                document.getElementById("subtitle").classList.contains("active")
+              ) {
+                document.getElementById("subtitleDisplay").textContent =
+                  transcript;
+                document.getElementById("subtitleDisplay").style.display =
+                  "block";
               }
             }
           }
@@ -309,7 +316,9 @@
         const subtitleBtn = document.getElementById("subtitle");
         const subtitleDisplay = document.getElementById("subtitleDisplay");
         subtitleBtn.classList.toggle("active");
-        subtitleDisplay.style.display = subtitleBtn.classList.contains("active") ? "block" : "none";
+        subtitleDisplay.style.display = subtitleBtn.classList.contains("active")
+          ? "block"
+          : "none";
       };
 
       // Initialize session
