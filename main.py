@@ -7,8 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
-# Serve static files (frontend)
-app.mount("/", StaticFiles(directory="public", html=True), name="static")
 
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 MODEL = os.getenv("MODEL")
@@ -36,6 +34,9 @@ async def session():
         return resp.json()
     except httpx.RequestError as e:
         raise HTTPException(status_code=500, detail={"error": str(e)})
+
+# Serve static files (frontend)
+app.mount("/", StaticFiles(directory="public", html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn
