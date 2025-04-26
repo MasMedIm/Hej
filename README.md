@@ -1,6 +1,6 @@
 # Hej – Real-Time Language Learning App
-
-A minimal web app demonstrating real-time, speech-to-speech language practice using WebRTC and the OpenAI Realtime API (GPT-4o).
+![Hej presentation](repo_assets/presentation.png)
+Try the live demo at [https://tryhej.com](https://tryhej.com)
 
 ## Features
 
@@ -16,7 +16,7 @@ A minimal web app demonstrating real-time, speech-to-speech language practice us
 - A valid OpenAI API key
 
 ## Setup & Run
-
+> Or skip setup and test instantly at [https://tryhej.com](https://tryhej.com)
 1. **Clone the repo**
    ```bash
    git clone https://github.com/MasMedIm/Hej.git
