@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hej – Preview</title>
+    <title>Learn any language like a local</title>
+    <meta
+      name="description"
+      content="Hej is an interactive voice app that helps you immersively learn any language, progressively and at your pace."
+    />
     <style>
       /* Layout */
       html,
@@ -101,9 +105,11 @@
       .controls button:hover {
         background: rgba(255, 255, 255, 0.2);
       }
+
       .controls button.active {
         background: rgba(96, 0, 255, 0.5);
       }
+
       /* Footer */
       .footer {
         position: absolute;
@@ -122,6 +128,7 @@
       .footer a:hover {
         text-decoration: underline;
       }
+
       /* Subtitle display */
       .subtitle-display {
         position: absolute;
@@ -134,17 +141,64 @@
         max-width: 80%;
         text-align: center;
         display: none;
+
+      /* Page header */
+      .page-header {
+        position: absolute;
+        top: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        max-width: 80%;
+      }
+      .page-header h1 {
+        margin: 0;
+        font-size: 3rem;
+      }
+      .page-header p {
+        margin: 0.5rem 0 0;
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      /* Top nav */
+      .top-nav {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.9rem;
+      }
+      .top-nav a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .top-nav a:hover {
+        text-decoration: underline;
+
       }
     </style>
   </head>
   <body>
+    <div class="page-header">
+      <h1>Learn any language like a local</h1>
+      <p>
+        Hej is an interactive voice app that helps you immersively learn any
+        language, progressively and at your pace.
+      </p>
+    </div>
     <div class="logo">hej<small>PREVIEW</small></div>
+    <nav class="top-nav">
+      <a href="#">About Hej</a>
+      <a href="#">GitHub</a>
+    </nav>
     <div id="orb"></div>
     <div class="controls">
       <button id="mute">Mute</button>
       <button id="stop">Stop</button>
       <button id="subtitle">Subtitle</button>
     </div>
+
     <div class="subtitle-display" id="subtitleDisplay"></div>
     <div class="footer">
       <a href="#">About Hej</a>
@@ -152,6 +206,7 @@
       <a href="#">Terms</a>
       <a href="#">Privacy</a>
     </div>
+
     <audio id="remoteAudio" autoplay hidden></audio>
     <script type="module">
       const orb = document.getElementById("orb");
