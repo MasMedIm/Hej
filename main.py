@@ -22,6 +22,14 @@ async def session():
         "Content-Type": "application/json"
     }
     payload = {"model": MODEL, "voice": VOICE}
+    # Load custom instructions from local file
+    try:
+        with open("instructions.txt", "r", encoding="utf-8") as f:
+            instr = f.read().strip()
+        if instr:
+            payload["instructions"] = instr
+    except FileNotFoundError:
+        pass  # No instructions file provided
     try:
         async with httpx.AsyncClient() as client:
             resp = await client.post(url, json=payload, headers=headers, timeout=10.0)
