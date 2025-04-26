@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenAI Realtime WebRTC Demo</title>
+</head>
+<body>
+  <h1>OpenAI Realtime WebRTC Demo</h1>
+  <button id="start">Start Conversation</button>
+  <audio id="remoteAudio" autoplay></audio>
+  <script>
+    document.getElementById('start').onclick = async () => {
+      const { client_secret: { value: token } } = await fetch('/session').then(r => r.json());
+      const pc = new RTCPeerConnection();
+      // play remote audio
+      pc.ontrack = e => document.getElementById('remoteAudio').srcObject = e.streams[0];
+      // receive events
+      const dc = pc.createDataChannel('oai-events');
+      dc.onmessage = e => console.log('Event:', JSON.parse(e.data));
+      // add mic
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      pc.addTrack(stream.getTracks()[0]);
+      // create offer
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      // send offer to realtime API
+      const resp = await fetch(`https://api.openai.com/v1/realtime?model=${encodeURIComponent("gpt-4o-realtime-preview-2024-12-17")}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/sdp'
+        },
+        body: pc.localDescription.sdp
+      });
+      const answerSdp = await resp.text();
+      await pc.setRemoteDescription({ type: 'answer', sdp: answerSdp });
+    };
+  </script>
+</body>
+</html>
