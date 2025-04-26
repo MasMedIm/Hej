@@ -11,8 +11,8 @@ A minimal web app demonstrating real-time, speech-to-speech language practice us
 
 ## Prerequisites
 
-- Node.js (v18+)
-- npm
+- Node.js (v18+) or Python (3.8+)
+- npm or pip
 - A valid OpenAI API key
 
 ## Setup & Run
@@ -22,28 +22,37 @@ A minimal web app demonstrating real-time, speech-to-speech language practice us
    git clone https://github.com/MasMedIm/Hej.git
    cd Hej
    ```
-2. **Create a `.env` file** in the project root:
+2. **Create a `.env` file** in the project root (both backends use this):
    ```env
    OPENAI_API_KEY=sk-…          # your secret key
    MODEL=gpt-4o-realtime-preview-2024-12-17
    VOICE=verse
    ```
+
+### Node.js backend
+
 3. **Fix npm cache permissions** (if you see EACCES errors):
    ```bash
    sudo chown -R $(id -u):$(id -g) ~/.npm
    ```
-4. **Install dependencies**
+4. **Install & start Node server**
    ```bash
    npm install
-   ```
-5. **Start the server**
-   ```bash
    npm start
    ```
-6. **Open the app** in your browser: http://localhost:3000
-   - Click **Start Conversation**
-   - Speak into your microphone
-   - Hear AI responses and check console for live transcripts
+5. **Open the app** in your browser: http://localhost:3000
+
+### Python (FastAPI) backend
+
+3. **Install Python deps**
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. **Start FastAPI server**
+   ```bash
+   uvicorn main:app --reload --port 3000
+   ```
+5. **Open the app** in your browser: http://localhost:3000
 
 ## Project Structure
 
