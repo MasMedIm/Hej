@@ -157,6 +157,16 @@
         margin: 0;
         margin-top: 1rem;
         font-size: 3rem;
+        /* modern tri-color gradient */
+        background: linear-gradient(
+          60deg,
+          #12c2e9 0%,
+          #c471ed 50%,
+          #f64f59 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
       }
       .page-header p {
         margin: 0.5rem 0 0;
@@ -185,6 +195,7 @@
         /* shrink orb size already handled, push orb below title */
         #orb {
           margin-top: 4rem;
+          margin-bottom: 2rem;
         }
         .page-header {
           top: 1rem;
