@@ -1,353 +1,320 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Learn any language like a local</title>
     <meta
-      name="description"
-      content="Hej is an interactive voice app that helps you immersively learn any language, progressively and at your pace."
+        name="description"
+        content="Hej is an interactive voice app that helps you immersively learn any language, progressively and at your pace."
     />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-      /* Layout */
-      html,
-      body {
-        width: 100vw;
-        height: 100vh;
-        margin: 0;
-        padding: 0;
-        background: #000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: system-ui, sans-serif;
-        color: #fff;
-        overflow: visible;
-      }
-      /* Logo */
-      .logo {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-transform: lowercase;
-        display: flex;
-        align-items: center;
-      }
-      .logo small {
-        margin-left: 0.5rem;
-        font-size: 0.6rem;
-        text-transform: uppercase;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 0.1rem 0.4rem;
-        border-radius: 0.25rem;
-        font-weight: normal;
-      }
-      /* Orb */
-      #orb {
-        /* responsive size: shrink on small screens */
-        width: min(300px, 60vw);
-        height: min(300px, 60vw);
-        border-radius: 50%;
-        background: radial-gradient(
-          circle at 30% 30%,
-          rgba(96, 0, 255, 0.9) 0%,
-          rgba(0, 102, 255, 0.8) 40%,
-          rgba(255, 0, 128, 0.6) 100%
-        );
-        box-shadow: 0 0 40px 20px rgba(125, 0, 255, 0.4);
-        position: relative;
-        transform-origin: center center;
-        will-change: transform, filter;
-      }
-      #orb::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(
-          circle at 70% 70%,
-          rgba(255, 0, 128, 0.45) 0%,
-          rgba(0, 0, 0, 0) 60%
-        );
-        mix-blend-mode: screen;
-        animation: morph 10s ease-in-out infinite;
-      }
-      @keyframes morph {
-        0% {
-          border-radius: 42% 58% 62% 38% / 60% 41% 59% 40%;
+        /* Layout */
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        50% {
-          border-radius: 57% 43% 41% 59% / 43% 60% 40% 57%;
+
+        /* Logo */
+        .logo {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: lowercase;
         }
-        100% {
-          border-radius: 42% 58% 62% 38% / 60% 41% 59% 40%;
-        }
-      }
-      /* Controls */
-      .controls {
-        position: absolute;
-        bottom: 4rem;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-      }
-      .controls button {
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        border-radius: 0.5rem;
-        color: #fff;
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-      .controls button:hover {
-        background: rgba(255, 255, 255, 0.2);
-      }
 
-      .controls button.active {
-        background: rgba(96, 0, 255, 0.5);
-      }
-
-      /* Footer */
-      .footer {
-        position: absolute;
-        bottom: 1rem;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.6);
-      }
-      .footer a {
-        color: inherit;
-        text-decoration: none;
-      }
-      .footer a:hover {
-        text-decoration: underline;
-      }
-
-      /* Subtitle display */
-      .subtitle-display {
-        position: absolute;
-        bottom: 6rem;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.7);
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        max-width: 80%;
-        text-align: center;
-        display: none;
-      }
-
-      /* Page header */
-      .page-header {
-        position: absolute;
-        top: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        max-width: 80%;
-      }
-      .page-header h1 {
-        margin: 0;
-        margin-top: 1rem;
-        font-size: 3rem;
-        /* modern tri-color gradient */
-        background: linear-gradient(
-          60deg,
-          #12c2e9 0%,
-          #c471ed 50%,
-          #f64f59 100%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-      .page-header p {
-        margin: 0.5rem 0 0;
-        font-size: 1.5rem;
-        color: rgba(255, 255, 255, 0.8);
-      }
-      /* Top nav */
-      .top-nav {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        display: flex;
-        gap: 1.5rem;
-        font-size: 0.9rem;
-      }
-      .top-nav a {
-        color: inherit;
-        text-decoration: none;
-      }
-      .top-nav a:hover {
-        text-decoration: underline;
-      }
-
-      /* Responsive adjustments */
-      @media (max-width: 600px) {
-        /* shrink orb size already handled, push orb below title */
+        /* Orb */
         #orb {
-          margin-top: 4rem;
-          margin-bottom: 2rem;
+            width: min(300px, 60vw);
+            height: min(300px, 60vw);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(96, 0, 255, 0.9) 0%, rgba(0, 102, 255, 0.8) 40%, rgba(255, 0, 128, 0.6) 100%);
+            box-shadow: 0 0 40px 20px rgba(125, 0, 255, 0.4);
+            position: relative;
+            transform-origin: center center;
+            will-change: transform, filter;
+            transition: transform 0.3s ease;
         }
+
+        /* Controls */
+        .controls {
+            position: absolute;
+            bottom: 4rem;
+            display: flex;
+            gap: 1rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .controls button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 0.5rem;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .controls button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #12c2e9;
+        }
+
+        /* Page header */
         .page-header {
-          top: 1rem;
+            position: absolute;
+            top: 2rem;
+            text-align: center;
         }
-        /* Mobile: smaller title and hide description */
+
         .page-header h1 {
-          margin-top: 3rem;
-          font-size: 2rem;
+            margin: 0;
+            font-size: 3rem;
+            background: linear-gradient(60deg, #12c2e9 0%, #c471ed 50%, #f64f59 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: transform 0.3s;
         }
+
         .page-header p {
-          display: none;
+            margin: 0.5rem 0 0;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
         }
-      }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            #orb {
+                margin-top: 4rem;
+                margin-bottom: 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                display: none;
+            }
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="page-header">
-      <h1>Speak Italian like a local</h1>
-      <p>
-        Hej is an interactive voice app that helps you immersively speak Italian
-        progressively and at your pace.
-      </p>
+        <h1>Speak Italian like a local</h1>
+        <p>Hej is an interactive voice app that helps you immersively speak Italian progressively and at your pace.</p>
     </div>
     <div class="logo">hej</div>
     <nav class="top-nav">
-      <a href="https://github.com/MasMedIm/Hej" target="_blank">GitHub</a>
+        <a href="https://github.com/MasMedIm/Hej" target="_blank">GitHub</a>
     </nav>
     <div id="orb"></div>
     <div class="controls">
-      <button id="mute">Mute</button>
-      <button id="stop">Stop</button>
-      <button id="subtitle">Subtitle</button>
+        <button id="mute">Mute</button>
+        <button id="stop">Stop</button>
+        <button id="subtitle">Subtitle</button>
     </div>
-
-    <div class="subtitle-display" id="subtitleDisplay"></div>
-
+    <div class="subtitle-display" id="subtitleDisplay" style="display: none;"></div>
     <audio id="remoteAudio" autoplay hidden></audio>
+
     <script type="module">
-      const orb = document.getElementById("orb");
-      const remoteAudio = document.getElementById("remoteAudio");
-      let pc;
+        const orb = document.getElementById("orb");
+        const remoteAudio = document.getElementById("remoteAudio");
+        let pc;
+        let startTime = Date.now();
+        let scrollDepth = 0;
 
-      async function startSession() {
-        const {
-          client_secret: { value: token },
-        } = await fetch("/session").then((r) => r.json());
-        pc = new RTCPeerConnection({
-          iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-        });
-        pc.ontrack = (e) => {
-          remoteAudio.srcObject = e.streams[0];
-        };
-        const dc = pc.createDataChannel("oai-events");
-        // dc.onmessage = (e) => console.log("Event:", JSON.parse(e.data));
-        dc.onmessage = (e) => {
-          if (JSON.parse(e.data).type === "response.done") {
-            if (
-              JSON.parse(e.data).response.output?.[0]?.content?.[0]?.transcript
-            ) {
-              const transcript = JSON.parse(e.data).response.output[0]
-                .content[0].transcript;
-              console.log("Response:", transcript);
-              if (
-                document.getElementById("subtitle").classList.contains("active")
-              ) {
-                document.getElementById("subtitleDisplay").textContent =
-                  transcript;
-                document.getElementById("subtitleDisplay").style.display =
-                  "block";
-              }
+        function trackUserInteraction(event) {
+            // Track button clicks
+            if (event.target.tagName === 'BUTTON') {
+                console.log(`Button clicked: ${event.target.id}`);
             }
-          }
-        };
-        const micStream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-        });
-        pc.addTrack(micStream.getTracks()[0]);
-        const offer = await pc.createOffer();
-        await pc.setLocalDescription(offer);
-        const resp = await fetch(
-          `https://api.openai.com/v1/realtime?model=${encodeURIComponent(
-            "gpt-4o-realtime-preview-2024-12-17"
-          )}`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/sdp",
-            },
-            body: pc.localDescription.sdp,
-          }
-        );
-        const answerSdp = await resp.text();
-        await pc.setRemoteDescription({ type: "answer", sdp: answerSdp });
-      }
-
-      // VAI orb animation
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 512;
-      const dataArr = new Uint8Array(analyser.frequencyBinCount);
-
-      remoteAudio.addEventListener("play", () => {
-        const srcNode = audioCtx.createMediaElementSource(remoteAudio);
-        srcNode.connect(analyser);
-        analyser.connect(audioCtx.destination);
-        render();
-      });
-
-      const toScale = (v) => 1 + v * 0.6;
-      const toBlur = (v) => v * 10;
-
-      function render() {
-        analyser.getByteTimeDomainData(dataArr);
-        let sum = 0;
-        for (const v of dataArr) {
-          const d = v - 128;
-          sum += d * d;
         }
-        const rms = Math.sqrt(sum / dataArr.length) / 128;
-        orb.style.transform = `scale(${toScale(rms)})`;
-        orb.style.filter = `blur(${toBlur(rms)}px)`;
-        requestAnimationFrame(render);
-      }
 
-      // Idle fallback pulse
-      const idleStyle = document.createElement("style");
-      idleStyle.textContent = `@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}`;
-      document.head.append(idleStyle);
+        function trackScrollDepth() {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const depth = Math.min(scrollPosition / documentHeight, 1);
+            scrollDepth = depth * 100;
+            console.log(`Scroll Depth: ${scrollDepth}%`);
+        }
 
-      // Controls
-      document.getElementById("mute").onclick = () => {
-        remoteAudio.muted = !remoteAudio.muted;
-        document.getElementById("mute").textContent = remoteAudio.muted
-          ? "Unmute"
-          : "Mute";
-      };
-      document.getElementById("stop").onclick = () => {
-        if (pc) pc.close();
-        remoteAudio.srcObject = null;
-      };
-      document.getElementById("subtitle").onclick = () => {
-        const subtitleBtn = document.getElementById("subtitle");
-        const subtitleDisplay = document.getElementById("subtitleDisplay");
-        subtitleBtn.classList.toggle("active");
-        subtitleDisplay.style.display = subtitleBtn.classList.contains("active")
-          ? "block"
-          : "none";
-      };
+        function trackTimeSpent() {
+            const timeSpent = Math.round((Date.now() - startTime) / 1000);
+            console.log(`Time spent on page: ${timeSpent}s`);
+        }
 
-      // Initialize session
-      startSession();
+        function trackAudioPlay() {
+            remoteAudio.addEventListener('play', () => {
+                console.log('Audio is playing.');
+            });
+        }
+
+        async function startSession() {
+            const { client_secret: { value: token } } = await fetch("/session").then((r) => r.json());
+            pc = new RTCPeerConnection({
+                iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+            });
+            pc.ontrack = (e) => {
+                remoteAudio.srcObject = e.streams[0];
+            };
+            const dc = pc.createDataChannel("oai-events");
+            dc.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+                if (data.type === "response.done") {
+                    const transcript = data.response.output?.[0]?.content?.[0]?.transcript;
+                    if (transcript) {
+                        console.log("Response:", transcript);
+                        if (document.getElementById("subtitle").classList.contains("active")) {
+                            const subtitleDisplay = document.getElementById("subtitleDisplay");
+                            subtitleDisplay.textContent = transcript;
+                            subtitleDisplay.style.display = "block";
+                        }
+                    }
+                }
+            };
+            const micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            pc.addTrack(micStream.getTracks()[0]);
+            const offer = await pc.createOffer();
+            await pc.setLocalDescription(offer);
+            const resp = await fetch(`https://api.openai.com/v1/realtime?model=${encodeURIComponent("gpt-4o-realtime-preview-2024-12-17")}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/sdp",
+                },
+                body: pc.localDescription.sdp,
+            });
+            const answerSdp = await resp.text();
+            await pc.setRemoteDescription({ type: "answer", sdp: answerSdp });
+        }
+
+        // Event listeners
+        document.addEventListener('click', trackUserInteraction);
+        window.addEventListener('scroll', trackScrollDepth);
+        window.addEventListener('beforeunload', trackTimeSpent);
+        trackAudioPlay();
+
+        // Initialize session
+        startSession();
     </script>
-  </body>
+
+    <script>
+      // User interaction tracking
+      const analytics = {
+        startTime: Date.now(),
+        scrollDepth: 0,
+        interactions: [],
+        
+        init() {
+          // Track scroll depth
+          window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
+            if (scrollPercent > this.scrollDepth) {
+              this.scrollDepth = scrollPercent;
+              this.logInteraction('scroll', { depth: scrollPercent });
+            }
+          });
+
+          // Track button clicks
+          document.querySelectorAll('button, a, [role="button"]').forEach(element => {
+            element.addEventListener('click', (e) => {
+              this.logInteraction('click', {
+                element: element.tagName,
+                text: element.textContent?.trim(),
+                id: element.id,
+                class: element.className
+              });
+            });
+          });
+
+          // Track form interactions
+          document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+              this.logInteraction('form_submit', {
+                formId: form.id,
+                formAction: form.action
+              });
+            });
+          });
+
+          // Track media interactions
+          document.querySelectorAll('video, audio').forEach(media => {
+            media.addEventListener('play', () => {
+              this.logInteraction('media_play', {
+                type: media.tagName,
+                id: media.id
+              });
+            });
+          });
+
+          // Track time spent
+          setInterval(() => {
+            const timeSpent = (Date.now() - this.startTime) / 1000;
+            this.logInteraction('time_spent', { seconds: timeSpent });
+          }, 30000); // Log every 30 seconds
+        },
+
+        logInteraction(type, data) {
+          this.interactions.push({
+            type,
+            data,
+            timestamp: new Date().toISOString()
+          });
+          
+          // Send to analytics endpoint
+          fetch('/api/analytics', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type,
+              data,
+              timestamp: new Date().toISOString()
+            })
+          }).catch(console.error);
+        }
+      };
+
+      // Initialize analytics when DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => analytics.init());
+    </script>
+  
+</body>
 </html>
+```
